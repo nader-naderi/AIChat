@@ -3,60 +3,45 @@ using System;
 using BlazingChat.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BlazingChat.Server.Data.Migrations
+namespace BlazingChat.Server.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    [Migration("20230212190510_InitialMigration")]
-    partial class InitialMigration
+    partial class ChatContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.13")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.25");
 
             modelBuilder.Entity("BlazingChat.Server.Data.Entities.Message", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("FromId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FromUserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("SentOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ToId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToUserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FromUserId");
+                    b.HasIndex("FromId");
 
-                    b.HasIndex("ToUserId");
+                    b.HasIndex("ToId");
 
                     b.ToTable("Message");
                 });
@@ -65,29 +50,27 @@ namespace BlazingChat.Server.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("AddedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(25)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(25)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -98,13 +81,13 @@ namespace BlazingChat.Server.Data.Migrations
                 {
                     b.HasOne("BlazingChat.Server.Data.Entities.User", "FromUser")
                         .WithMany()
-                        .HasForeignKey("FromUserId")
+                        .HasForeignKey("FromId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("BlazingChat.Server.Data.Entities.User", "ToUser")
                         .WithMany()
-                        .HasForeignKey("ToUserId")
+                        .HasForeignKey("ToId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 

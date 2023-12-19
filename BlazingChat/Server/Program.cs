@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -34,7 +32,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddDbContext<ChatContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Chat")));
+builder.Services.AddDbContext<ChatContext>(options => {
+    options.UseSqlite($"Data Source={builder.Environment.ContentRootPath}/Sqlite/ChatDatabase.db");
+    options.EnableSensitiveDataLogging(true);
+});
 
 builder.Services.AddTransient<TokenService>();
 

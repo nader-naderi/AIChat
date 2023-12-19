@@ -15,10 +15,10 @@ namespace BlazingChat.Server.Data.Entities
         public string Content { get; set; }
         public DateTime SentOn { get; set; }
 
-        [ForeignKey(nameof(Message.FromId))]
+        [ForeignKey(nameof(FromId))]
         public virtual User FromUser { get; set; }
 
-        [ForeignKey(nameof(Message.ToId))]
+        [ForeignKey(nameof(ToId))]
         public virtual User ToUser { get; set; }
     }
 }
